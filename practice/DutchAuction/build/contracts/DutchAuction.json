@@ -1,0 +1,625 @@
+{
+  "contract_name": "DutchAuction",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "biddingStart",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "bid",
+      "outputs": [],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "priceDecrement",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "beneficiary",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "offerPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "auctioneer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "startAuction",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "getOfferPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "highestBidder",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "decreaseOfferPrice",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "state",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "biddingDuration",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "highestBid",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "minPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "endAuction",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "startPrice",
+          "type": "uint256"
+        },
+        {
+          "name": "_priceDecrement",
+          "type": "uint256"
+        },
+        {
+          "name": "_minPrice",
+          "type": "uint256"
+        },
+        {
+          "name": "_biddingDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "_beneficiary",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewOfferPrice",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "BuyerFound",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "bidding",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "winner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "AuctionEnded",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000c57fe5b60405160a08061075583398101604090815281516020830151918301516060840151608090940151919390915b60018054600160a060020a03338116600160a060020a03199283161790925560058790556006869055600785905560038490556000805492841692909116919091179055600980546002919060a060020a60ff02191674010000000000000000000000000000000000000000835b02179055506004805460ff191690555b50505050505b610689806100cc6000396000f300606060405236156100ca5763ffffffff60e060020a600035041663022a6fae81146100cc5780631998aeef146100ee57806326cddbfb146100f857806338af3eed1461011a5780633bf19e29146101465780633ccfd60b146101685780635ec2c7bf1461018c5780636b64c769146101b85780636ee8526f146101ca57806391f90157146101ec578063b22f385614610218578063c19d93fb1461022a578063c8e7b31d1461025e578063d57bde7914610280578063e45be8eb146102a2578063fe67a54b146102c4575bfe5b34156100d457fe5b6100dc6102d6565b60408051918252519081900360200190f35b6100f66102dc565b005b341561010057fe5b6100dc610376565b60408051918252519081900360200190f35b341561012257fe5b61012a61037c565b60408051600160a060020a039092168252519081900360200190f35b341561014e57fe5b6100dc61038b565b60408051918252519081900360200190f35b341561017057fe5b610178610391565b604080519115158252519081900360200190f35b341561019457fe5b61012a610417565b60408051600160a060020a039092168252519081900360200190f35b34156101c057fe5b6100f6610426565b005b34156101d257fe5b6100dc610468565b60408051918252519081900360200190f35b34156101f457fe5b61012a61049b565b60408051600160a060020a039092168252519081900360200190f35b341561022057fe5b6100f66104aa565b005b341561023257fe5b61023a610547565b6040518082600381111561024a57fe5b60ff16815260200191505060405180910390f35b341561026657fe5b6100dc610557565b60408051918252519081900360200190f35b341561028857fe5b6100dc61055d565b60408051918252519081900360200190f35b34156102aa57fe5b6100dc610563565b60408051918252519081900360200190f35b34156102cc57fe5b6100f6610569565b005b60025481565b600080805b60095460a060020a900460ff1660038111156102f957fe5b146103045760006000fd5b6005549150348290116103175760006000fd5b600980546002919060a060020a60ff02191660a060020a835b021790555060098054600160a060020a039081166000908152600a602052604090203485900390558154600160a060020a0319163390911617905560088290555b5b5050565b60065481565b600054600160a060020a031681565b60055481565b600160a060020a0333166000908152600a60205260408120548181111561040d57600160a060020a0333166000818152600a60205260408082208290555183156108fc0291849190818181858888f19350505050151561040d57600160a060020a0333166000908152600a602052604081208290559150610413565b5b600191505b5090565b600154600160a060020a031681565b60015433600160a060020a039081169116146104425760006000fd5b600980546000919060a060020a60ff02191660a060020a835b0217905550426002555b5b565b600080805b60095460a060020a900460ff16600381111561048557fe5b146104905760006000fd5b60055491505b5b5090565b600954600160a060020a031681565b60015433600160a060020a039081169116146104c65760006000fd5b6000805b60095460a060020a900460ff1660038111156104e257fe5b146104ed5760006000fd5b600354600254420311156105415760065460058054919091039081905560408051918252517fa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab29181900360200190a1426002555b5b5b505b565b60095460a060020a900460ff1681565b60035481565b60085481565b60075481565b60015433600160a060020a039081169116146105855760006000fd5b60035b60095460a060020a900460ff1660038111156105a057fe5b14156105ac5760006000fd5b600980546003919060a060020a60ff02191660a060020a835b0217905550600954600160a060020a0316156104655760095460085460408051600160a060020a039093168352602083019190915280517fdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda9281900390910190a160008054600854604051600160a060020a039092169281156108fc029290818181858888f19350505050151561046557fe5b5b5b5b5600a165627a7a7230582049e538c771b8f14d615d47f07c590263bf05de48d747e6c4b4c83afab52440200029",
+  "networks": {
+    "1495367369931": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xfff7b472fe86d76808cfecc0d6e8846003471bff",
+      "updated_at": 1495368417428
+    },
+    "1495524676585": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x4c1424cf47b197d24554d7fe34d5d420730da16c",
+      "updated_at": 1495524688994
+    },
+    "1497254484528": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x5a239e6c85f7e4ff966383682861c2b2a35c0ce1",
+      "updated_at": 1497254488913
+    },
+    "1497503059174": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x2db121da867c04e63f58f435f0f55a766c7cd08a",
+      "updated_at": 1497505717995
+    },
+    "1497859041283": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdb774c799e30bb4e305d0f6682e65df74ad1779fa547f2d97782f859abaeec34": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "bidding",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x480453bc5adc53ea6a817d4954fe552043a37be8",
+      "updated_at": 1497860292634
+    },
+    "1497860703620": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdb774c799e30bb4e305d0f6682e65df74ad1779fa547f2d97782f859abaeec34": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "bidding",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x7d662d6f74af672a7ca0489eee12c8166a9e9e9b",
+      "updated_at": 1497860752983
+    },
+    "1497863150304": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdb774c799e30bb4e305d0f6682e65df74ad1779fa547f2d97782f859abaeec34": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "bidding",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x73c945c651f281ce903a2c701be8bf10fa4be9d9",
+      "updated_at": 1497863162786
+    },
+    "1497863194941": {
+      "events": {
+        "0xa8df35084955483f66222ce645c62384cc1e9028f16bd61c041a449a5709cab2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOfferPrice",
+          "type": "event"
+        },
+        "0x463647815c7d90e32f36c90605f451038f475a159c346539c3abd9fb2f152d16": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "BuyerFound",
+          "type": "event"
+        },
+        "0xdb774c799e30bb4e305d0f6682e65df74ad1779fa547f2d97782f859abaeec34": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "bidding",
+          "type": "event"
+        },
+        "0xdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x25a15e5f7d9abf74cdb44c1fe69d85f4ae0948e1",
+      "updated_at": 1497863272728
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1497863272728
+}
